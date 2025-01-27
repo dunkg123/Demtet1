@@ -1,0 +1,69 @@
+<?php
+// Ngày Tết Nguyên Đán (bạn có thể thay đổi năm và tháng)
+$tet_year = 2025;
+$tet_month = 1;
+$tet_day = 29;
+
+// Lấy thời gian hiện tại
+$now = time();
+
+// Tính toán thời gian còn lại đến Tết (đơn vị: giây)
+$tet = mktime(0, 0, 0, $tet_month, $tet_day, $tet_year);
+$diff = $tet - $now;
+
+// Mảng các câu chúc Tết
+$chuc_tet = [
+    "Chúc mừng năm mới! Kính chúc gia đình bạn một năm mới an khang thịnh vượng!",
+    "Năm mới chúc bạn sức khỏe dồi dào, công việc thuận lợi!",
+    // Thêm nhiều câu chúc khác vào đây
+];
+
+// Chọn ngẫu nhiên một câu chúc
+$cau_chuc = $chuc_tet[array_rand($chuc_tet)];
+?>
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Đếm ngược đến Tết Nguyên Đán</title>
+    <style>
+        /* Thêm CSS để định dạng giao diện */
+        body {
+            text-align: center;
+            font-family: Arial, sans-serif;
+        }
+        #countdown {
+            font-size: 36px;
+            margin-bottom: 20px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Còn lại đến Tết Nguyên Đán</h1>
+    <div id="countdown"></div>
+    <p><?php echo $cau_chuc; ?></p>
+
+    <script>
+        // Sử dụng JavaScript để cập nhật đồng hồ đếm ngược mỗi giây
+        function countdown() {
+            var seconds = <?php echo $diff; ?>;
+            var days = Math.floor(seconds / (3600 * 24));
+            var hours = Math.floor((seconds % (3600 * 24)) / 3600);
+            var minutes = Math.floor((seconds % 3600) / 60);
+            var seconds = seconds % 60;
+
+            document.getElementById("countdown").innerHTML = days + " ngày " + hours + " giờ " +
+                                                               minutes + " phút " + seconds + " giây";
+
+            seconds--;
+
+            if (seconds < 0) {
+                clearInterval(x);
+                document.getElementById("countdown").innerHTML = "Chúc mừng năm mới!";
+            }
+        }
+
+        var x = setInterval(countdown, 1000);
+    </script>
+</body>
+</html>
